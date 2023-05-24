@@ -1,6 +1,7 @@
 const colors = {
     bg: '#F6F5FB',
     bg2: '#E6E5EB',
+    bgRoxo: '#D7D1F9',
     componentes: '#FFFFFF',
 
     roxoPrincipal:'#7C68F3',

@@ -3,6 +3,7 @@ import colors from './colors';
 
 const estilos = StyleSheet.create({
     topo: {
+        flex:1,
         backgroundColor: colors.roxoPrincipal,
         padding: 16,
         width: '100%', 
