@@ -10,7 +10,7 @@ import {
   Linking,
 } from "react-native";
 // import AuthContext from "../../context/AuthContext";
-import Whats from "../componentes/Whats";
+// import Whats from "../componentes/Whats";
 
 import estilos from "../../styles/login";
 // import colors from "../../styles/colors";
@@ -55,7 +55,7 @@ const Login = (props) => {
       <View style={estilos.containerLogo}>
         <Image
           style={estilos.image}
-          source={require("../../../assets/Icone.png")}
+          source={require("../../../assets/Icone.svg")}
         />
       </View>
       <View style={estilos.inputView}>

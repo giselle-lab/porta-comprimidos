@@ -4,7 +4,7 @@ import colors from "./colors";
 const estilos = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.verde,
+    backgroundColor: colors.roxoPrincipal,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -63,10 +63,10 @@ const estilos = StyleSheet.create({
     fontSize: 20,
     fontFamily: "RobotoBold",
     letterSpacing: 0.25,
-    color: colors.verde,
+    color: colors.roxoPrincipal,
   },
   campoWhats: {
-    backgroundColor: colors.verde,
+    backgroundColor: colors.roxoPrincipal,
     alignItems: "center",
     marginTop: 20,
     paddingBottom: 50,

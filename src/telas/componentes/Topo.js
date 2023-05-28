@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { carregaTopo, carregaTopoNPS,carregaTopoGerando } from '../../servicos/carregaDados';
+import { carregaTopo} from '../../servicos/carregaDados';
 import { Divider } from 'react-native-paper';
-import estilos from '../../styles/topo';
+import colors from '../../styles/colors';
+// import estilos from '../../styles/topo';
 
 
 
@@ -26,14 +27,6 @@ class Topo extends React.Component {
         retorno = carregaTopo();
         this.setState({ topo: retorno });
         break;
-      case 'NPS':
-        retorno = carregaTopoNPS();
-        this.setState({ topo: retorno });
-        break;
-      case 'Gerando':
-        retorno = carregaTopoGerando();
-        this.setState({ topo: retorno })
-        break;
       default:
         retorno = null;
     }
@@ -46,8 +39,8 @@ class Topo extends React.Component {
 
     render() {
         return <View style={estilos.topo}>
-            <View style={estilosLocal.diposicao}>
-                <View style={estilosLocal.texto}>
+            <View style={estilos.diposicao}>
+                <View style={estilos.texto}>
                     <Text style={estilos.boasVindas}>{this.state.topo.boasVindas}</Text>
                     {this.state.title != 'NPS' ?
                     (<Text style={estilos.nomeCliente}>{this.state.nome}</Text> ): 
@@ -63,15 +56,46 @@ class Topo extends React.Component {
     }
 }
 
-var estilosLocal = StyleSheet.create({
+var estilos = StyleSheet.create({
     texto: {
         flex: 1,
     },
     diposicao: {
         flexDirection: 'row',
-        marginHorizontal: '2%',
-
+        // marginHorizontal: '2%',
     },
+    topo: {
+        flex:1,
+        backgroundColor: colors.roxoPrincipal,
+        padding: 16,
+        width: '100%', 
+    },
+    image: {
+        width: 70,
+        height: 28,
+    },
+    boasVindas: {
+        marginTop: 24,
+        fontSize: 26,
+        //lineHeight: 42,
+        fontFamily:'RobotoExtraBold',
+        //ontWeight: 'bold',
+        color: colors.letrasPrincipais
+    },
+    nomeCliente: {
+        fontSize: 34,
+        color: 'white',
+        marginBottom: 10,
+    },
+    legenda: {
+        marginTop:5,
+        fontSize: 15,
+        color: 'white',
+        marginHorizontal: '2%',
+        fontFamily:'RobotoExtraBold',
+        // letterSpacing: 0.2,
+        lineHeight:22
+    }
 
 })
 

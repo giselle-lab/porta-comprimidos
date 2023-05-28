@@ -1,18 +1,16 @@
 import React, { useContext } from "react";
 import Topo from "../componentes/Topo";
-import Card from "../componentes/Card";
-import { View, Text, Button } from "react-native";
-// import Etapas from "./componentes/Etapas";
-import etapas from "../../mocks/etapas";
+import Card from "../Card";
+import { View } from "react-native";
 
 // import { GlobalContext } from "../../context/GlobalContext";
 
-const data = [
-  { id: 1, name: 'Comprimido 1' },
-  { id: 2, name: 'Comprimido 2' },
-  { id: 3, name: 'Comprimido 3' },
-  // Adicione mais itens da lista conforme necessário
-];
+// const data = [
+//   { id: 1, name: 'Horario 1', status:'tomou' },
+//   { id: 2, name: 'Horario 2', status:'tomou' },
+//   { id: 3, name: 'Horario 3', status:'pendente' },
+//   // Adicione mais itens da lista conforme necessário
+// ];
 
 
 export default function Home() {
@@ -22,9 +20,9 @@ export default function Home() {
     <View style={styles.container}>
       <Topo title={'Home'} nome={'Giselle'} />
       <View style={styles.card}>
-        <Card title={'Acompahe os comprimidos'} data={data} />
+        {/* <Card title={'c1'} data={data} /> */}
+        <Card />
       </View>
-
     </View>
   );
   {
@@ -34,7 +32,7 @@ export default function Home() {
 
 const styles = {
   container: {
-    // flex: 1,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     // padding: 16,
@@ -43,6 +41,8 @@ const styles = {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
+    // padding: 16,
+    
+    top: -50,
   },
 };

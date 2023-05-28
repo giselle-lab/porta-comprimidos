@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import Home from './src/telas/Home';
 import Config from './src/telas/Config';
+import Tela from './src/telas/Card';
+import Login from './src/telas/Login';
 
 export default function App() {
   return (
@@ -11,7 +13,9 @@ export default function App() {
     //   <StatusBar style="auto" />
     // </View>
     // <Home />
-    <Config />
+    // <Tela />
+    // <Config />
+    <Login />
   );
 }
 
