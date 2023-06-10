@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Topo from "../componentes/Topo";
-import Card from "../Card";
+import Card from "./Card";
 import { View } from "react-native";
 
 // import { GlobalContext } from "../../context/GlobalContext";

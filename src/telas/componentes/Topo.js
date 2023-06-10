@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { carregaTopo} from '../../servicos/carregaDados';
+import { carregaTopo, carregaTopoConfig} from '../../servicos/carregaDados';
 import { Divider } from 'react-native-paper';
 import colors from '../../styles/colors';
 // import estilos from '../../styles/topo';
@@ -25,6 +25,10 @@ class Topo extends React.Component {
     switch (this.state.title) {
       case 'Home':
         retorno = carregaTopo();
+        this.setState({ topo: retorno });
+        break;
+        case 'Config':
+        retorno = carregaTopoConfig();
         this.setState({ topo: retorno });
         break;
       default:

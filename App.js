@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import Home from './src/telas/Home';
 import Config from './src/telas/Config';
-import Tela from './src/telas/Card';
+import Tela from './src/telas/Home/Card';
 import Login from './src/telas/Login';
 
 export default function App() {
