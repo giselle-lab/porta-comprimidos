@@ -43,6 +43,6 @@ const styles = {
     alignItems: 'center',
     // padding: 16,
     
-    top: -50,
+    top: -150,
   },
 };

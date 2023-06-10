@@ -42,14 +42,14 @@ const estilos = StyleSheet.create({
     color: colors.letrasDetalhes,
     marginLeft: 20,
     marginTop: 12,
-    fontFamily: "RobotoMedium",
+    // fontFamily: "RobotoMedium",
   },
   esqueciSenha: {
     height: 30,
     marginBottom: 30,
     color: 'white',
     justifyContent: "flex-start",
-    fontFamily: "RobotoBold",
+    // fontFamily: "RobotoBold",
   },
   botao: {
     alignItems: "center",
@@ -61,7 +61,7 @@ const estilos = StyleSheet.create({
   },
   textoLogin: {
     fontSize: 20,
-    fontFamily: "RobotoBold",
+    // fontFamily: "RobotoBold",
     letterSpacing: 0.25,
     color: colors.roxoPrincipal,
   },
@@ -73,7 +73,7 @@ const estilos = StyleSheet.create({
   },
   texto: {
     fontSize: 14,
-    fontFamily: 'RobotoRegular',
+    // fontFamily: 'RobotoRegular',
     marginBottom: 10,
     color: "white",
 },

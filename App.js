@@ -14,8 +14,8 @@ export default function App() {
     // </View>
     // <Home />
     // <Tela />
-    // <Config />
-    <Login />
+    <Config />
+    // <Login />
   );
 }
 

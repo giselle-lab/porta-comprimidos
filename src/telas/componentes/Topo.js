@@ -69,7 +69,7 @@ var estilos = StyleSheet.create({
         backgroundColor: colors.roxoPrincipal,
         padding: 16,
         width: '100%', 
-    },
+        },
     image: {
         width: 70,
         height: 28,
@@ -78,7 +78,7 @@ var estilos = StyleSheet.create({
         marginTop: 24,
         fontSize: 26,
         //lineHeight: 42,
-        fontFamily:'RobotoExtraBold',
+        // fontFamily:'RobotoExtraBold',
         //ontWeight: 'bold',
         color: colors.letrasPrincipais
     },
@@ -92,7 +92,7 @@ var estilos = StyleSheet.create({
         fontSize: 15,
         color: 'white',
         marginHorizontal: '2%',
-        fontFamily:'RobotoExtraBold',
+        // fontFamily:'RobotoExtraBold',
         // letterSpacing: 0.2,
         lineHeight:22
     }

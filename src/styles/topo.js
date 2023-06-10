@@ -16,7 +16,7 @@ const estilos = StyleSheet.create({
         marginTop: 24,
         fontSize: 26,
         //lineHeight: 42,
-        fontFamily:'RobotoExtraBold',
+        // fontFamily:'RobotoExtraBold',
         //ontWeight: 'bold',
         color: colors.letrasPrincipais
     },
@@ -30,7 +30,7 @@ const estilos = StyleSheet.create({
         fontSize: 15,
         color: 'white',
         marginHorizontal: '2%',
-        fontFamily:'RobotoExtraBold',
+        // fontFamily:'RobotoExtraBold',
         // letterSpacing: 0.2,
         lineHeight:22
     }
