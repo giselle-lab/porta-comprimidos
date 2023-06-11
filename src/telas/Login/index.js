@@ -19,6 +19,10 @@ import estilos from "../../styles/login";
 // import { GlobalContext } from "../../context/GlobalContext";
 import { Path, Svg } from "react-native-svg";
 
+//so pra testar
+import { useNavigation } from '@react-navigation/native';
+
+
 const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -49,6 +53,9 @@ const Login = (props) => {
   const handleNavigation = () => {
     props.navigation.navigate("EsqueciSenha");
   };
+
+  //só pra testar
+  const navigation = useNavigation();
 
   return (
     <View style={estilos.container}>
@@ -83,8 +90,10 @@ const Login = (props) => {
         </Text>
       </TouchableOpacity>
 
-      {/* <Pressable style={estilos.botao} onPress={busca}> */}
-      <Pressable style={estilos.botao}>
+      <Pressable style={estilos.botao} onPress={() => navigation.navigate('Home')}>
+        <Text style={estilos.textoLogin}>Entrar</Text>
+      </Pressable>
+      {/* <Pressable style={estilos.botao}>
         {isLoading ? (
           <View alignItems={'center'} width={200} height={44}>
             <Image
@@ -95,7 +104,7 @@ const Login = (props) => {
         ) : (
           <Text style={estilos.textoLogin}>Entrar</Text>
         )}
-      </Pressable>
+      </Pressable> */}
       <View style={estilos.campoWhats}>
         <Text style={estilos.texto}>Alguma dúvida? Entre em contato.</Text>
         <Pressable

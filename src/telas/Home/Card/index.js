@@ -73,9 +73,6 @@ const AlarmeListScreen = () => {
           {usuario.compartimentos[compartimento].map((alarme, index) => (
             <View key={index} style={styles.horarioContainer}>
               {getStatusIcon(alarme.status)}
-              {/* <Text style={styles.horarioText}>
-                Horário: {alarme.horario} - Dias: {alarme.dias.join(', ')}
-              </Text> */}
               <Text style={styles.horarioText}>
                 Horário: {alarme.horario}
               </Text>

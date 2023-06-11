@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import colors from '../../../styles/colors';
 
 const AlarmeConfigScreen = () => {
   const [usuario, setUsuario] = useState({
@@ -17,9 +18,14 @@ const AlarmeConfigScreen = () => {
       compartimentos: {
         ...prevUsuario.compartimentos,
         [novoCompartimento]: {
-          alarme: '',
-          frequencia: '',
-          soneca: ''
+          nome:'',
+          horario: '',
+          vezes: '',
+          soneca: {
+            intervalo: '',
+            repeticoes: ''
+          },
+          status: 2 // 1: tomou, 2: pendente, 3: ainda vai tomar
         }
       }
     }));
@@ -62,13 +68,11 @@ const AlarmeConfigScreen = () => {
     const isExpanded = expandedCompartimentos[compartimento];
 
     return (
-      <TouchableOpacity
-        key={compartimento}
-        style={styles.card}
-        onPress={() => toggleExpandCompartimento(compartimento)}
-        activeOpacity={0.8}
-      >
-        <View style={styles.cardHeader}>
+      <View key={compartimento} style={styles.card}>
+        <TouchableOpacity
+          style={styles.cardHeader}
+          onPress={() => toggleExpandCompartimento(compartimento)}
+        >
           <Text style={styles.cardTitle}>Compartimento {compartimento}:</Text>
           <TouchableOpacity
             style={styles.removeCompartimentoButton}
@@ -76,15 +80,23 @@ const AlarmeConfigScreen = () => {
           >
             <Feather name="trash-2" size={20} color="red" />
           </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
 
         {isExpanded && (
           <>
+          <View style={styles.fieldContainer}>
+              <Text>Nome da medicação:</Text>
+              <TextInput
+                value={compartimentoData.nome}
+                onChangeText={(valor) => editarCampo(compartimento, 'nome', valor)}
+                placeholder="Digite o nome"
+              />
+            </View>
             <View style={styles.fieldContainer}>
               <Text>Horário do alarme:</Text>
               <TextInput
-                value={compartimentoData.alarme}
-                onChangeText={(valor) => editarCampo(compartimento, 'alarme', valor)}
+                value={compartimentoData.horario}
+                onChangeText={(valor) => editarCampo(compartimento, 'horario', valor)}
                 placeholder="Digite o horário"
               />
             </View>
@@ -92,8 +104,8 @@ const AlarmeConfigScreen = () => {
             <View style={styles.fieldContainer}>
               <Text>Frequência do alarme:</Text>
               <TextInput
-                value={compartimentoData.frequencia}
-                onChangeText={(valor) => editarCampo(compartimento, 'frequencia', valor)}
+                value={compartimentoData.vezes}
+                onChangeText={(valor) => editarCampo(compartimento, 'vezes', valor)}
                 placeholder="Digite a frequência"
               />
             </View>
@@ -101,14 +113,22 @@ const AlarmeConfigScreen = () => {
             <View style={styles.fieldContainer}>
               <Text>Intervalo de soneca:</Text>
               <TextInput
-                value={compartimentoData.soneca}
-                onChangeText={(valor) => editarCampo(compartimento, 'soneca', valor)}
+                value={compartimentoData.soneca.intervalo}
+                onChangeText={(valor) => editarCampo(compartimento, 'soneca', { ...compartimentoData.soneca, intervalo: valor })}
                 placeholder="Digite o intervalo de soneca"
+              />
+            </View>
+            <View style={styles.fieldContainer}>
+              <Text>Repetições de soneca:</Text>
+              <TextInput
+                value={compartimentoData.soneca.repeticoes}
+                onChangeText={(valor) => editarCampo(compartimento, 'soneca', { ...compartimentoData.soneca, repeticoes: valor })}
+                placeholder="Digite repetições da soneca"
               />
             </View>
           </>
         )}
-      </TouchableOpacity>
+      </View>
     );
   };
 
@@ -131,7 +151,7 @@ const AlarmeConfigScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -166,7 +186,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   salvarButton: {
-    backgroundColor: '#000000',
+    backgroundColor: colors.roxoPrincipal,
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
