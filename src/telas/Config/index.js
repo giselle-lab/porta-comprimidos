@@ -34,6 +34,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     // padding: 16,
-    top: -150,
+    position: 'absolute',
+    top: 200,
   },
 };

@@ -83,6 +83,9 @@ loading: {
   width: "20%",
   height: "100%"
 },
+iconPrincipal:{
+  width: "20%",
+  height: "20%",}
 });
 
 export default estilos;

@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import colors from '../../../styles/colors';
+import { ScrollView } from 'react-native';
 
 const AlarmeConfigScreen = () => {
   const [usuario, setUsuario] = useState({
@@ -133,19 +134,21 @@ const AlarmeConfigScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text color="black">Adicionar Compartimento</Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <Text style={styles.adicionar} color="white">Adicionar Compartimento</Text>
 
-      {Object.keys(usuario.compartimentos).map((compartimento) => renderizarCompartimento(compartimento))}
+        {Object.keys(usuario.compartimentos).map((compartimento) => renderizarCompartimento(compartimento))}
 
-      <TouchableOpacity style={styles.addCompartimentoButton} onPress={adicionarCompartimento}>
-        <Feather name="plus" size={20} color="black" />
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.addCompartimentoButton} onPress={adicionarCompartimento}>
+          <Feather name="plus" size={20} color="black" />
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.salvarButton} onPress={salvarConfiguracoes}>
-        <Text style={styles.salvarButtonText}>Salvar</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.salvarButton} onPress={salvarConfiguracoes}>
+          <Text style={styles.salvarButtonText}>Salvar</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -154,6 +157,11 @@ const styles = StyleSheet.create({
     // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  adicionar:{
+    marginBottom: 16,
+    textAlign: 'left',
+
   },
   card: {
     backgroundColor: '#ffffff',

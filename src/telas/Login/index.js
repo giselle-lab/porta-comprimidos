@@ -9,6 +9,8 @@ import {
   Alert,
   Linking,
 } from "react-native";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 // import AuthContext from "../../context/AuthContext";
 // import Whats from "../componentes/Whats";
 
@@ -60,10 +62,12 @@ const Login = (props) => {
   return (
     <View style={estilos.container}>
       <View style={estilos.containerLogo}>
-        <Image
+        {/* <Image
           style={estilos.image}
           source={require("../../../assets/Icone.svg")}
-        />
+        /> */}
+        <Icon style={estilos.iconPrincipal}name="pill" size={20} color="white" />
+
       </View>
       <View style={estilos.inputView}>
         <TextInput
@@ -105,11 +109,11 @@ const Login = (props) => {
           <Text style={estilos.textoLogin}>Entrar</Text>
         )}
       </Pressable> */}
-      <View style={estilos.campoWhats}>
+      {/* <View style={estilos.campoWhats}>
         <Text style={estilos.texto}>Alguma dúvida? Entre em contato.</Text>
         <Pressable
           onPress={() => {
-            Linking.openURL("https://wa.me/message/TUFDLCQTICAKO1");
+            Linking.openURL("https://wa.me/message/+5528999504301");
           }}
         >
           <Svg
@@ -125,7 +129,7 @@ const Login = (props) => {
             />
           </Svg>
         </Pressable>
-      </View>
+      </View> */}
     </View>
   );
 };

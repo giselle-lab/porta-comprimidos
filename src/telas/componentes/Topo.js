@@ -47,7 +47,7 @@ const Topo = ({ title, nome }) => {
           )}
         </View>
         {title === 'Home' && (
-          <TouchableOpacity onPress={() => navigation.navigate('Configuracoes')}>
+          <TouchableOpacity style={estilos.config} onPress={() => navigation.navigate('Configuracoes')}>
             <Text>Ir para Configurações</Text>
           </TouchableOpacity>
         )}
@@ -98,6 +98,11 @@ const estilos = StyleSheet.create({
     // letterSpacing: 0.2,
     lineHeight: 22,
   },
+  config:{
+    // color: 'white',
+    marginTop: 30,
+
+  }
 });
 
 export default Topo;
