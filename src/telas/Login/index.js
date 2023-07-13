@@ -11,46 +11,51 @@ import {
 } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-// import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 // import Whats from "../componentes/Whats";
 
 import estilos from "../../styles/login";
 // import colors from "../../styles/colors";
 
 // import { resultado } from "../../servicos/informacoesCliente/resultado";
-// import { GlobalContext } from "../../context/GlobalContext";
+import { GlobalContext } from "../../context/GlobalContext";
 import { Path, Svg } from "react-native-svg";
 
 //so pra testar
 import { useNavigation } from '@react-navigation/native';
 
 
+//
+import axios from 'axios';
+
+const AUTH_API_URL = 'https://smart-pillbox-3609ac92dfe8.herokuapp.com/api/v1/auth/authenticate';
+
 const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-//   const { signIn } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
-//   const { setInformacoes, setNome, setSituacao } = useContext(GlobalContext);
+  const { setInformacoes, setNome, setSituacao } = useContext(GlobalContext);
 
-//   async function busca() {
-//     setIsLoading(true);
-//     var res = await resultado(username, password);
+  async function busca() {
+    setIsLoading(true);
+    var res = await resultado(username, password);
 
-//     setInformacoes(res);
+    setInformacoes(res);
 
-//     console.log(res.data.nome);
-//     console.log(res.data.situacao.status);
-//     setSituacao(res.data.situacao.status);
-//     setNome(res.data.nome);
+    console.log(res.data.nome);
+    console.log(res.data.situacao.status);
+    setSituacao(res.data.situacao.status);
+    setNome(res.data.nome);
 
-//     if (res.data.nome) {
-//       signIn({ username, password });
-//     } else {
-//       Alert.alert("Usuário nao encontrado");
-//     }
-//   }
+    if (res.data.nome) {
+      signIn({ username, password });
+    } else {
+      Alert.alert("Usuário nao encontrado");
+    }
+  }
 
   const handleNavigation = () => {
     props.navigation.navigate("EsqueciSenha");
@@ -59,6 +64,28 @@ const Login = (props) => {
   //só pra testar
   const navigation = useNavigation();
 
+
+  const fazerLogin = async (email, senha) => {
+    try {
+      const response = await axios.post(`${AUTH_API_URL}`, {
+        email,
+        senha,
+      }, {
+        headers: {
+          'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON
+        },
+      });
+  
+      const token = response.data.token;
+      navigation.navigate('Home');
+      return token;
+    } catch (error) {
+      console.error('Erro durante o login:', error);
+      throw error;
+    }
+  };
+
+
   return (
     <View style={estilos.container}>
       <View style={estilos.containerLogo}>
@@ -66,7 +93,7 @@ const Login = (props) => {
           style={estilos.image}
           source={require("../../../assets/Icone.svg")}
         /> */}
-        <Icon style={estilos.iconPrincipal}name="pill" size={20} color="white" />
+        <Icon style={estilos.iconPrincipal} name="pill" size={20} color="white" />
 
       </View>
       <View style={estilos.inputView}>
@@ -94,7 +121,11 @@ const Login = (props) => {
         </Text>
       </TouchableOpacity>
 
-      <Pressable style={estilos.botao} onPress={() => navigation.navigate('Home')}>
+      {/* <Pressable style={estilos.botao} onPress={() => navigation.navigate('Home')}>
+        <Text style={estilos.textoLogin}>Entrar</Text>
+      </Pressable> */}
+
+      <Pressable style={estilos.botao}  onPress={ () => fazerLogin(username, password)}>
         <Text style={estilos.textoLogin}>Entrar</Text>
       </Pressable>
       {/* <Pressable style={estilos.botao}>

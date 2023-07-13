@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import colors from '../../../styles/colors';
-import { ScrollView } from 'react-native';
+import axios from 'axios';
 
 const AlarmeConfigScreen = () => {
   const [usuario, setUsuario] = useState({
@@ -12,6 +12,91 @@ const AlarmeConfigScreen = () => {
 
   const [expandedCompartimentos, setExpandedCompartimentos] = useState({});
 
+  useEffect(() => {
+    // Função para ler e atualizar o estado do usuário com base nos dados inseridos manualmente
+    const lerDadosManualmente = () => {
+      const dadosManualmente = {
+        S3: {
+          name: "medicamento3",
+          alarms: [
+            {
+              hour: 12,
+              minute: 0
+            },
+            {
+              hour: 20,
+              minute: 0
+            }
+          ]
+        },
+        S4: {
+          name: "medicamento4",
+          alarms: [
+            {
+              hour: 12,
+              minute: 0
+            }
+          ]
+        },
+        S5: {
+          name: "medicamento5",
+          alarms: [
+            {
+              hour: 20,
+              minute: 0
+            }
+          ]
+        },
+        S1: {
+          name: "medicamento1",
+          alarms: [
+            {
+              hour: 8,
+              minute: 0
+            },
+            {
+              hour: 12,
+              minute: 0
+            },
+            {
+              hour: 16,
+              minute: 0
+            },
+            {
+              hour: 20,
+              minute: 0
+            },
+            {
+              hour: 0,
+              minute: 0
+            }
+          ]
+        },
+        S2: {
+          name: "medicamento2",
+          alarms: [
+            {
+              hour: 8,
+              minute: 0
+            },
+            {
+              hour: 16,
+              minute: 0
+            },
+            {
+              hour: 0,
+              minute: 0
+            }
+          ]
+        }
+      };
+
+      setUsuario({ compartimentos: dadosManualmente });
+    };
+
+    lerDadosManualmente();
+  }, []);
+
   const adicionarCompartimento = () => {
     const novoCompartimento = `c${Object.keys(usuario.compartimentos).length + 1}`;
     setUsuario((prevUsuario) => ({
@@ -19,14 +104,8 @@ const AlarmeConfigScreen = () => {
       compartimentos: {
         ...prevUsuario.compartimentos,
         [novoCompartimento]: {
-          nome:'',
-          horario: '',
-          vezes: '',
-          soneca: {
-            intervalo: '',
-            repeticoes: ''
-          },
-          status: 2 // 1: tomou, 2: pendente, 3: ainda vai tomar
+          name: '',
+          alarms: []
         }
       }
     }));
@@ -36,6 +115,25 @@ const AlarmeConfigScreen = () => {
     setUsuario((prevUsuario) => {
       const compartimentosAtualizados = { ...prevUsuario.compartimentos };
       delete compartimentosAtualizados[compartimento];
+
+      return { ...prevUsuario, compartimentos: compartimentosAtualizados };
+    });
+  };
+
+  const adicionarAlarme = (compartimento) => {
+    setUsuario((prevUsuario) => {
+      const compartimentosAtualizados = { ...prevUsuario.compartimentos };
+      const novoAlarme = { hour: '', minute: '' };
+      compartimentosAtualizados[compartimento].alarms.push(novoAlarme);
+
+      return { ...prevUsuario, compartimentos: compartimentosAtualizados };
+    });
+  };
+
+  const removerAlarme = (compartimento, index) => {
+    setUsuario((prevUsuario) => {
+      const compartimentosAtualizados = { ...prevUsuario.compartimentos };
+      compartimentosAtualizados[compartimento].alarms.splice(index, 1);
 
       return { ...prevUsuario, compartimentos: compartimentosAtualizados };
     });
@@ -51,10 +149,19 @@ const AlarmeConfigScreen = () => {
   };
 
   const salvarConfiguracoes = () => {
-    // Aqui você pode fazer o que desejar com o objeto "usuario",
-    // como enviá-lo para um servidor ou salvá-lo localmente.
+    // Enviar os dados dos compartimentos via Axios
+    const dadosParaEnviar = {
+      slots: { ...usuario.compartimentos }
+    };
 
-    Alert.alert('Configurações Salvas', 'As configurações foram salvas com sucesso!');
+    axios.post('https://smart-pillbox-3609ac92dfe8.herokuapp.com/config/app', dadosParaEnviar)
+      .then(response => {
+        Alert.alert('Configurações Salvas', 'As configurações foram salvas com sucesso!');
+      })
+      .catch(error => {
+        console.error('Erro ao salvar as configurações:', error);
+        Alert.alert('Erro', 'Ocorreu um erro ao salvar as configurações. Por favor, tente novamente.');
+      });
   };
 
   const toggleExpandCompartimento = (compartimento) => {
@@ -85,58 +192,64 @@ const AlarmeConfigScreen = () => {
 
         {isExpanded && (
           <>
-          <View style={styles.fieldContainer}>
+            <View style={styles.fieldContainer}>
               <Text>Nome da medicação:</Text>
               <TextInput
-                value={compartimentoData.nome}
-                onChangeText={(valor) => editarCampo(compartimento, 'nome', valor)}
+                value={compartimentoData.name}
+                onChangeText={(valor) => editarCampo(compartimento, 'name', valor)}
                 placeholder="Digite o nome"
               />
             </View>
-            <View style={styles.fieldContainer}>
-              <Text>Horário do alarme:</Text>
-              <TextInput
-                value={compartimentoData.horario}
-                onChangeText={(valor) => editarCampo(compartimento, 'horario', valor)}
-                placeholder="Digite o horário"
-              />
-            </View>
 
-            <View style={styles.fieldContainer}>
-              <Text>Frequência do alarme:</Text>
-              <TextInput
-                value={compartimentoData.vezes}
-                onChangeText={(valor) => editarCampo(compartimento, 'vezes', valor)}
-                placeholder="Digite a frequência"
-              />
-            </View>
+            {compartimentoData.alarms.length > 0 ? (
+              compartimentoData.alarms.map((alarme, index) => (
+                <View key={index} style={styles.fieldContainer}>
+                  <Text>Alarme {index + 1}:</Text>
+                  <View style={styles.alarmeContainer}>
+                    <Text>Hora:</Text>
+                    <TextInput
+                      value={alarme.hour.toString()}
+                      onChangeText={(valor) => editarCampo(compartimento, 'alarms', atualizarAlarme(compartimentoData.alarms, index, 'hour', valor))}
+                      placeholder="Digite a hora"
+                      style={styles.input}
+                    />
+                    <Text>Minuto:</Text>
+                    <TextInput
+                      value={alarme.minute.toString()}
+                      onChangeText={(valor) => editarCampo(compartimento, 'alarms', atualizarAlarme(compartimentoData.alarms, index, 'minute', valor))}
+                      placeholder="Digite o minuto"
+                      style={styles.input}
+                    />
+                    <TouchableOpacity onPress={() => removerAlarme(compartimento, index)}>
+                      <Feather name="trash-2" size={20} color="red" />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ))
+            ) : (
+              <Text>Nenhum alarme configurado.</Text>
+            )}
 
-            <View style={styles.fieldContainer}>
-              <Text>Intervalo de soneca:</Text>
-              <TextInput
-                value={compartimentoData.soneca.intervalo}
-                onChangeText={(valor) => editarCampo(compartimento, 'soneca', { ...compartimentoData.soneca, intervalo: valor })}
-                placeholder="Digite o intervalo de soneca"
-              />
-            </View>
-            <View style={styles.fieldContainer}>
-              <Text>Repetições de soneca:</Text>
-              <TextInput
-                value={compartimentoData.soneca.repeticoes}
-                onChangeText={(valor) => editarCampo(compartimento, 'soneca', { ...compartimentoData.soneca, repeticoes: valor })}
-                placeholder="Digite repetições da soneca"
-              />
-            </View>
+            <TouchableOpacity style={styles.adicionarAlarmeButton} onPress={() => adicionarAlarme(compartimento)}>
+              <Text style={styles.adicionarAlarmeButtonText}>Adicionar Alarme</Text>
+            </TouchableOpacity>
           </>
         )}
       </View>
     );
   };
 
+  const atualizarAlarme = (alarmes, index, campo, valor) => {
+    const alarmesAtualizados = [...alarmes];
+    const alarmeAtualizado = { ...alarmesAtualizados[index], [campo]: valor };
+    alarmesAtualizados[index] = alarmeAtualizado;
+    return alarmesAtualizados;
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.adicionar} color="white">Adicionar Compartimento</Text>
+        <Text style={styles.adicionar}>Adicionar Compartimento</Text>
 
         {Object.keys(usuario.compartimentos).map((compartimento) => renderizarCompartimento(compartimento))}
 
@@ -154,14 +267,12 @@ const AlarmeConfigScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  adicionar:{
+  adicionar: {
     marginBottom: 16,
     textAlign: 'left',
-
   },
   card: {
     backgroundColor: '#ffffff',
@@ -187,6 +298,17 @@ const styles = StyleSheet.create({
   fieldContainer: {
     marginBottom: 16,
   },
+  alarmeContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  input: {
+    flex: 1,
+    marginLeft: 8,
+    borderWidth: 1,
+    borderRadius: 4,
+    padding: 8,
+  },
   addCompartimentoButton: {
     backgroundColor: '#ffffff',
     borderRadius: 50,
@@ -203,6 +325,19 @@ const styles = StyleSheet.create({
   },
   salvarButtonText: {
     color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  adicionarAlarmeButton: {
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 16,
+    width: '90%',
+    alignItems: 'center',
+  },
+  adicionarAlarmeButtonText: {
+    color: '#000000',
     fontSize: 16,
     fontWeight: 'bold',
   },
