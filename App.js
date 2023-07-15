@@ -8,6 +8,7 @@ import Login from './src/telas/Login';
 import EsqueciSenha from "./src/telas/EsqueciSenha";
 import Cadastro from './src/telas/Cadastro';
 import SplashScreen from './src/telas/SplashScreen';
+import VincularApp from './src/telas/VincularApp';
 
 import AuthContext from "./src/context/AuthContext";
 import { InfoProvider } from "./src/context/GlobalContext";
@@ -158,15 +159,30 @@ export default function App({ navigation }) {
     }
   }, [firstAccess]);
 
+  const token = null;
+
+    useEffect(() => {
+      const checkLoginStatus = async () => {
+        token = await AsyncStorage.getItem('token');
+        if (token) {
+          // Token is present, user is logged in
+          // Perform necessary actions (e.g., navigate to the main screen)
+        } else {
+          // Token is not present, user needs to log in
+          // Perform necessary actions (e.g., navigate to the login screen)
+        }
+      };
+  
+      checkLoginStatus();
+    }, []);
+
   return (
-
-
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         <InfoProvider>
 
           <Stack.Navigator
-            initialRouteName="SignIn"
+            initialRouteName="Cadastro"
             //{firstAccess ? "Cadastro" : "SignIn"}
           >
             {/* {firstAccess ? (
@@ -190,6 +206,17 @@ export default function App({ navigation }) {
                 }}
               />
             )} */}
+            <Stack.Screen name="VincularApp" component={VincularApp} />
+
+            <Stack.Screen name="Cadastro">
+                {(props) => (
+                  <Cadastro
+                    {...props}
+                    firstAccess={firstAccess}
+                    setFirstAccess={setFirstAccess} // Certifique-se de passar a função setFirstAccess como prop
+                  />
+                )}
+              </Stack.Screen>
             <Stack.Screen
                 name="SignIn"
                 component={Login}
