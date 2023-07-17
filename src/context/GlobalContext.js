@@ -5,6 +5,8 @@ export const GlobalContext = createContext({});
 export function InfoProvider({ children }) {
     var [tela, setTela] = useState("Home")
     var [nome, setNome] = useState("-")
+    var [code,setCode] = useState("")
+    var [token,setToken] = useState("") 
     var [progresso, setProgresso] = useState("50")
 
     const [informacoes, setInformacoes] = useState({})
@@ -25,6 +27,10 @@ export function InfoProvider({ children }) {
     
     return (
         <GlobalContext.Provider value={{
+            code,
+            setCode,
+            token,
+            setToken,
             nome,
             tela,
             informacoes,

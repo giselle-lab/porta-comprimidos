@@ -1,47 +1,104 @@
-import React, { useState } from 'react';
-import { View, TextInput, Alert, StyleSheet, TouchableOpacity ,Text } from 'react-native';
+import React, { useState, useContext} from 'react';
+import { View, TextInput, Alert, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
+
+import { GlobalContext } from "../../context/GlobalContext";
 
 import colors from '../../styles/colors';
 
+const API_URL = 'https://smart-pillbox-3609ac92dfe8.herokuapp.com';
+
+
 const VincularAppScreen = () => {
+  const { code,token, setCode } = useContext(GlobalContext);
   const [codigo, setCodigo] = useState('');
 
-  const handleVincularApp = async () => {
+
+  console.log('token: ' + token);
+  console.log('oi gente vou ficar doida associatedPillbox: ' + token);
+  const handleVincularApp =  () => {
     try {
-      const response = await axios.post('URL_DA_API_DE_VINCULO', {
-        codigo: codigo,
+      const response =  axios.post('API_URL/code/associate', {
+        code: codigo,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       // Realize as ações necessárias após o vínculo bem-sucedido
       console.log('Vínculo realizado com sucesso!');
       console.log(response.data);
       Alert.alert('App vinculado com sucesso!');
-      // navigation.navigate('SignIn');
-      
+      setCode(codigo)
+
+      navigation.navigate('Configuracoes');
+
+
     } catch (error) {
       // Lide com erros de vínculo aqui
       console.log(error);
-      Alert.alert('Ocorreu um erro ao vincular o app. Verifique o código e tente novamente.');
+      // Alert.alert('Ocorreu um erro ao vincular o app. Verifique o código e tente novamente.');
     }
   };
 
+
+  const handleDesvincularApp = async () => {
+    try {
+      
+        const response = await axios.post('API_URL/code/desassociate', {
+          headers: {
+            // 'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          // Dados necessários para desvincular o app
+        });
+
+        // Realize as ações necessárias após a desvinculação bem-sucedida
+        console.log('Desvinculação realizada com sucesso!');
+        Alert.alert('App desvinculado com sucesso!');
+        console.log("code"+code);
+        setCode(null)
+
+        navigation.navigate('Configuracoes');
+    } catch (error) {
+      // Lide com erros de desvinculação aqui
+      console.log(error);
+      Alert.alert('Ocorreu um erro ao desvincular o app. Tente novamente mais tarde.');
+    }
+  };
+
+  const navigation = useNavigation();
+
+
   return (
     <View style={styles.container}>
-      <Text style={styles.cardTitle}>Digite o código</Text>
-      <TextInput
-        placeholder="Digite o código"
-        value={codigo}
-        onChangeText={setCodigo}
-        style={styles.input}
-      />
-      <TouchableOpacity style={styles.salvarButton} title="Vincular App" onPress={handleVincularApp}>
-        <Text style={styles.salvarButtonText}>Salvar</Text>
 
-      </TouchableOpacity>
+      {code == null ? (
+        <View>
+          <Text style={styles.cardTitle}>Digite o código</Text>
+          <TextInput
+            placeholder="Digite o código"
+            value={codigo}
+            onChangeText={setCodigo}
+            style={styles.input}
+          />
+          <TouchableOpacity style={styles.vincularButton} onPress={handleVincularApp}>
+            <Text style={styles.vincularButtonText}>Vincular App</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <TouchableOpacity style={styles.desvincularButton} onPress={handleDesvincularApp}>
+          <Text style={styles.desvincularButtonText}>Desvincular App</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -51,11 +108,9 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop:50,
+    marginTop: 50,
   },
-
   input: {
-    // flex: 1,
     marginLeft: 8,
     borderWidth: 1,
     borderRadius: 4,
@@ -65,8 +120,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginTop: 16,
   },
-
-  salvarButton: {
+  vincularButton: {
     backgroundColor: colors.roxoPrincipal,
     borderRadius: 8,
     padding: 16,
@@ -74,12 +128,24 @@ const styles = StyleSheet.create({
     width: '90%',
     alignItems: 'center',
   },
-  salvarButtonText: {
+  vincularButtonText: {
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 'bold',
   },
-
+  desvincularButton: {
+    backgroundColor: colors.vermelhoPrincipal,
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 16,
+    width: '90%',
+    alignItems: 'center',
+  },
+  desvincularButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 
 export default VincularAppScreen;

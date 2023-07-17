@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 
 import Home from './src/telas/Home';
 import Config from './src/telas/Config';
@@ -165,6 +165,7 @@ export default function App({ navigation }) {
       const checkLoginStatus = async () => {
         token = await AsyncStorage.getItem('token');
         if (token) {
+          Alert.alert('eu sou um token'+token);
           // Token is present, user is logged in
           // Perform necessary actions (e.g., navigate to the main screen)
         } else {
@@ -182,8 +183,8 @@ export default function App({ navigation }) {
         <InfoProvider>
 
           <Stack.Navigator
-            initialRouteName="Cadastro"
-            //{firstAccess ? "Cadastro" : "SignIn"}
+            initialRouteName=//"Cadastro"
+            {token!=null ? "Home" : "SignIn"}
           >
             {/* {firstAccess ? (
               <Stack.Screen name="Cadastro">
@@ -206,6 +207,9 @@ export default function App({ navigation }) {
                 }}
               />
             )} */}
+
+
+
             <Stack.Screen name="VincularApp" component={VincularApp} />
 
             <Stack.Screen name="Cadastro">
@@ -231,6 +235,7 @@ export default function App({ navigation }) {
               options={{
                 headerShown: false,
               }}
+              // token={token}
             />
             <Stack.Screen
               name="EsqueciSenha"

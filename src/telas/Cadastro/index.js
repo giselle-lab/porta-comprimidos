@@ -86,9 +86,6 @@ export default function Cadastro({ setFirstAccess }) {
                     <Pressable style={estilos1.botao} onPress={handleCadastroPress}>
                         <Text style={estilos1.textoLogin}>Cadastre-se</Text>
                     </Pressable>
-                    {/* <Button title="Cadastre-se" onPress={handleCadastroPress} /> */}
-
-                    {/* <Whats /> */}
                 </View>
             </View>
     );

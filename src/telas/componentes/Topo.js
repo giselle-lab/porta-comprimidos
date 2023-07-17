@@ -35,30 +35,42 @@ const Topo = ({ title, nome }) => {
 
   const navigation = useNavigation();
 
+
+
   return (
-    <View style={estilos.topo}>
-      <View style={estilos.diposicao}>
-        <View style={estilos.texto}>
-          <Text style={estilos.boasVindas}>{topo.boasVindas}</Text>
-          {title !== 'NPS' ? (
-            <Text style={estilos.nomeCliente}>{nome}</Text>
+    <View style={styles.topo}>
+      <View style={styles.diposicao}>
+        <View style={styles.texto}>
+          <Text style={styles.boasVindas}>{topo.boasVindas}</Text>
+          <Text style={styles.nomeCliente}>{nome}</Text>
+
+          {/* {title !== 'NPS' ? (
           ) : (
-            <Text style={estilos.nomeCliente}>Estamos Prontos.</Text>
-          )}
+            <Text style={styles.nomeCliente}>Estamos Prontos.</Text>
+          )} */}
         </View>
         {title === 'Home' && (
-          <TouchableOpacity style={estilos.config} onPress={() => navigation.navigate('Configuracoes')}>
-            <Text>Ir para Configurações</Text>
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity style={styles.configButton} onPress={() => navigation.navigate('Configuracoes')}>
+              <Text style={styles.configButtonText}>Ir para Configurações</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {title === 'Config' && (
+          <View>
+            <TouchableOpacity style={styles.vincularButton} onPress={() => navigation.navigate('VincularApp')}>
+              <Text style={styles.vincularButtonText}>Vincular App</Text>
+            </TouchableOpacity>
+          </View>
         )}
       </View>
       <Divider inset={false} variant="middle" />
-      <Text style={estilos.legenda}>{topo.legenda}</Text>
+      <Text style={styles.legenda}>{topo.legenda}</Text>
     </View>
   );
 };
 
-const estilos = StyleSheet.create({
+const styles = StyleSheet.create({
   texto: {
     flex: 1,
   },
@@ -102,7 +114,19 @@ const estilos = StyleSheet.create({
     // color: 'white',
     marginTop: 30,
 
-  }
+  },vincularButton: {
+    backgroundColor: colors.verdePrincipal,
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 16,
+    width: '90%',
+    alignItems: 'center',
+  },
+  vincularButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 
 export default Topo;

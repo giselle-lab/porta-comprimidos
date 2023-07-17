@@ -1,16 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Topo from "../componentes/Topo";
 import Compartimentos from "./Compartimentos";
 import { View } from "react-native";
 
-// import { GlobalContext } from "../../context/GlobalContext";
+import { GlobalContext } from "../../context/GlobalContext";
 
 export default function Home() {
-//   const { tela, nome } = useContext(GlobalContext);
+  // const [nome, setName] = useState('');
+
+  const { nome } = useContext(GlobalContext);
 
   return (
     <View style={styles.container}>
-      <Topo title={'Config'} nome={'Giselle'} />
+      <Topo title={'Config'} nome={nome} />
       <View style={styles.card}>
         {/* <Card title={'c1'} data={data} /> */}
         <Compartimentos />

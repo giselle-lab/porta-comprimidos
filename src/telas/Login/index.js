@@ -5,7 +5,6 @@ import {
   Pressable,
   TouchableOpacity,
   Text,
-  Alert,
 } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -18,8 +17,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 //so pra testar
 import { useNavigation } from '@react-navigation/native';
 
-import { AsyncStorage } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from 'axios';
 
@@ -28,6 +26,8 @@ const AUTH_API_URL = 'https://smart-pillbox-3609ac92dfe8.herokuapp.com/api/v1/au
 const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const { tela, nome, setNome, token, setToken } = useContext(GlobalContext);
 
 
   const handleNavigation = () => {
@@ -38,11 +38,11 @@ const Login = (props) => {
   const navigation = useNavigation();
 
 
-  const fazerLogin = async (email, senha) => {
+  const fazerLogin = async (email, password) => {
     try {
       const response = await axios.post(`${AUTH_API_URL}`, {
         email,
-        senha,
+        password,
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,9 @@ const Login = (props) => {
   
       const token = response.data.token;
       await AsyncStorage.setItem('token', token); // Save the token to AsyncStorage
-      navigation.navigate('Home');
+      navigation.navigate('Home', { token: token });
+      console.log('eu sou um token'+token)
+      setToken(token);
       return token;
     } catch (error) {
       console.error('Erro durante o login:', error);
@@ -103,7 +105,7 @@ const Login = (props) => {
         <Text style={estilos.textoLogin}>Entrar</Text>
       </Pressable> */}
 
-      <Pressable style={estilos.botao}  onPress={ () => fazerLogin(0, password)}>
+      <Pressable style={estilos.botao}  onPress={ () => fazerLogin(username, password)}>
         <Text style={estilos.textoLogin}>Entrar</Text>
       </Pressable>
     </View>
