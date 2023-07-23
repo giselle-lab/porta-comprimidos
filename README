@@ -47,14 +47,35 @@ Se você deseja contribuir para o desenvolvimento do Porta Medicamentos Digital/
 
 Este projeto está sob a Licença [MIT](LICENSE).
 
+## Instalação
+
+Siga as etapas abaixo para instalar e executar o aplicativo Porta Medicamentos Digital/Inteligente em seu ambiente de desenvolvimento:
+
+### 1. Instalar Node.js
+
+Certifique-se de ter o Node.js instalado em sua máquina. O aplicativo foi desenvolvido utilizando o ambiente Node.js, que é necessário para executar o projeto. Caso precise instalá-lo, você pode baixar a versão mais recente em: [Node.js](https://nodejs.org/).
+
+### 2. Clonar o Repositório
+
+Clone este repositório em sua máquina local usando o Git:
+
+```bash
+git clone https://github.com/seu-usuario/nome-do-repositorio.git
 
 
-instalar node
+```bash
+git clone https://github.com/seu-usuario/nome-do-repositorio.git
 
-npx create-expo-app AwesomeProject
+# instalar dependencias
+```bash
 
-cd AwesomeProject
+cd nome-do-repositorio
+npm install
 npx expo start
 
-para ver em web
+# para ver em web
+```bash
+
 npx expo install react-native-web@~0.18.10 react-dom@18.2.0 @expo/webpack-config@^18.0.1
+npx expo start --web
+
