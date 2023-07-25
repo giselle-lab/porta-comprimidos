@@ -27,9 +27,6 @@ O aplicativo possui as seguintes funcionalidades:
 
 6. **Desvincular o App**: Caso o usuário deseje desvincular o aplicativo da caixinha, ele pode acessar a tela de "VincularApp" e pressionar o botão "Desvincular". O aplicativo envia uma solicitação ao servidor para remover a associação entre o aplicativo e a caixinha.
 
-## Instalação
-
-[Instruções de instalação e configuração do aplicativo](Instalacao.md)
 
 ## Bibliotecas e Dependências
 
@@ -40,13 +37,6 @@ O aplicativo utiliza diversas bibliotecas e dependências para fornecer suas fun
 - `axios`: Biblioteca para realizar requisições HTTP, utilizada para a comunicação com o servidor.
 - `react-navigation`: Biblioteca para implementar a navegação entre as telas do aplicativo.
 
-## Contribuição
-
-Se você deseja contribuir para o desenvolvimento do Porta Medicamentos Digital/Inteligente, sinta-se à vontade para abrir uma [issue](https://github.com/seu-usuario/nome-do-repositorio/issues) ou enviar um [pull request](https://github.com/seu-usuario/nome-do-repositorio/pulls) com suas melhorias ou correções.
-
-## Licença
-
-Este projeto está sob a Licença [MIT](LICENSE).
 
 ## Instalação
 
