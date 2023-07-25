@@ -1,28 +1,22 @@
-import React, { useState, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import { View, TextInput, Alert, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-
-
 import { GlobalContext } from "../../context/GlobalContext";
-
 import colors from '../../styles/colors';
 
 const API_URL = 'https://smart-pillbox-3609ac92dfe8.herokuapp.com';
 
-
 const VincularAppScreen = () => {
-  const { code,token, setCode } = useContext(GlobalContext);
+  const { code, token, setCode } = useContext(GlobalContext);
   const [codigo, setCodigo] = useState('');
+  const navigation = useNavigation();
 
-
-  console.log('token: ' + token);
-  console.log('oi gente vou ficar doida associatedPillbox: ' + token);
-  const handleVincularApp =  () => {
+  const handleVincularApp = async (code) => {
     try {
-      const response =  axios.post('API_URL/code/associate', {
-        code: codigo,
+      const response = await axios.post(`${API_URL}/code/associate`, {
+        code
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -33,12 +27,8 @@ const VincularAppScreen = () => {
       // Realize as ações necessárias após o vínculo bem-sucedido
       console.log('Vínculo realizado com sucesso!');
       console.log(response.data);
-      Alert.alert('App vinculado com sucesso!');
-      setCode(codigo)
-
+      setCode(codigo);
       navigation.navigate('Configuracoes');
-
-
     } catch (error) {
       // Lide com erros de vínculo aqui
       console.log(error);
@@ -46,25 +36,20 @@ const VincularAppScreen = () => {
     }
   };
 
-
   const handleDesvincularApp = async () => {
     try {
-      
-        const response = await axios.post('API_URL/code/desassociate', {
-          headers: {
-            // 'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          // Dados necessários para desvincular o app
-        });
+      const response = await axios.post(`${API_URL}/code/disassociate`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        // Dados necessários para desvincular o app
+      });
 
-        // Realize as ações necessárias após a desvinculação bem-sucedida
-        console.log('Desvinculação realizada com sucesso!');
-        Alert.alert('App desvinculado com sucesso!');
-        console.log("code"+code);
-        setCode(null)
-
-        navigation.navigate('Configuracoes');
+      // Realize as ações necessárias após a desvinculação bem-sucedida
+      console.log('Desvinculação realizada com sucesso!');
+      Alert.alert('App desvinculado com sucesso!');
+      setCode(null);
+      navigation.navigate('Configuracoes');
     } catch (error) {
       // Lide com erros de desvinculação aqui
       console.log(error);
@@ -72,13 +57,9 @@ const VincularAppScreen = () => {
     }
   };
 
-  const navigation = useNavigation();
-
-
   return (
     <View style={styles.container}>
-
-      {code == null ? (
+      {code === null ? (
         <View>
           <Text style={styles.cardTitle}>Digite o código</Text>
           <TextInput
@@ -87,13 +68,13 @@ const VincularAppScreen = () => {
             onChangeText={setCodigo}
             style={styles.input}
           />
-          <TouchableOpacity style={styles.vincularButton} onPress={handleVincularApp}>
+          <TouchableOpacity style={styles.vincularButton} onPress={() => handleVincularApp(codigo)}>
             <Text style={styles.vincularButtonText}>Vincular App</Text>
           </TouchableOpacity>
         </View>
       ) : (
-        <TouchableOpacity style={styles.desvincularButton} onPress={handleDesvincularApp}>
-          <Text style={styles.desvincularButtonText}>Desvincular App</Text>
+        <TouchableOpacity style={styles.vincularButton} onPress={handleDesvincularApp}>
+          <Text style={styles.vincularButtonText}>Desvincular App</Text>
         </TouchableOpacity>
       )}
     </View>

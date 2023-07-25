@@ -127,6 +127,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  configButton:{
+    marginTop: 30,
+  }
 });
 
 export default Topo;

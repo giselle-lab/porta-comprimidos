@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import colors from '../../../styles/colors';
 import axios from 'axios';
+import { GlobalContext } from "../../../context/GlobalContext";
+
 
 const AlarmeConfigScreen = () => {
   const [usuario, setUsuario] = useState({
@@ -148,20 +150,45 @@ const AlarmeConfigScreen = () => {
     });
   };
 
-  const salvarConfiguracoes = () => {
+  const salvarConfiguracoes = async () => {
+    const { code, token, setCode } = useContext(GlobalContext);
+
     // Enviar os dados dos compartimentos via Axios
     const dadosParaEnviar = {
       slots: { ...usuario.compartimentos }
     };
 
-    axios.post('https://smart-pillbox-3609ac92dfe8.herokuapp.com/config/app', dadosParaEnviar)
-      .then(response => {
-        Alert.alert('Configurações Salvas', 'As configurações foram salvas com sucesso!');
-      })
-      .catch(error => {
-        console.error('Erro ao salvar as configurações:', error);
-        Alert.alert('Erro', 'Ocorreu um erro ao salvar as configurações. Por favor, tente novamente.');
+    console.log("Ayekkke pediu"+slots)
+    try {
+      const response = await axios.post('https://smart-pillbox-3609ac92dfe8.herokuapp.com/config/app', {
+        slots
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       });
+
+      // Realize as ações necessárias após o vínculo bem-sucedido
+      console.log('Vínculo realizado com sucesso!');
+      console.log(response.data);
+      // setCode(codigo);
+      // navigation.navigate('Configuracoes');
+    } catch (error) {
+      // Lide com erros de vínculo aqui
+      console.log(error);
+      console.log('Ocorreu um erro ao vincular o app. Verifique o código e tente novamente.')
+      // Alert.alert('Ocorreu um erro ao vincular o app. Verifique o código e tente novamente.');
+    }
+  // };
+    // axios.post('https://smart-pillbox-3609ac92dfe8.herokuapp.com/config/app', dadosParaEnviar)
+    //   .then(response => {
+    //     Alert.alert('Configurações Salvas', 'As configurações foram salvas com sucesso!');
+    //   })
+    //   .catch(error => {
+    //     console.error('Erro ao salvar as configurações:', error);
+    //     Alert.alert('Erro', 'Ocorreu um erro ao salvar as configurações. Por favor, tente novamente.');
+    //   });
   };
 
   const toggleExpandCompartimento = (compartimento) => {
@@ -249,6 +276,9 @@ const AlarmeConfigScreen = () => {
   return (
     <ScrollView>
       <View style={styles.container}>
+      <TouchableOpacity style={styles.salvarButton} onPress={salvarConfiguracoes}>
+          <Text style={styles.salvarButtonText}>Salvar</Text>
+        </TouchableOpacity>
         <Text style={styles.adicionar}>Adicionar Compartimento</Text>
 
         {Object.keys(usuario.compartimentos).map((compartimento) => renderizarCompartimento(compartimento))}
@@ -257,9 +287,9 @@ const AlarmeConfigScreen = () => {
           <Feather name="plus" size={20} color="black" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.salvarButton} onPress={salvarConfiguracoes}>
+        {/* <TouchableOpacity style={styles.salvarButton} onPress={salvarConfiguracoes}>
           <Text style={styles.salvarButtonText}>Salvar</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </ScrollView>
   );
@@ -316,7 +346,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   salvarButton: {
-    backgroundColor: colors.roxoPrincipal,
+    // backgroundColor: colors.roxoPrincipal,
+    backgroundColor: '#ffffff',
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
@@ -324,7 +355,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   salvarButtonText: {
-    color: '#ffffff',
+    // backgroundColor: colors.roxoPrincipal,
+    color: colors.roxoPrincipal,
     fontSize: 16,
     fontWeight: 'bold',
   },
