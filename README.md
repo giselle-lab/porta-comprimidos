@@ -53,19 +53,15 @@ Clone este repositório em sua máquina local usando o Git:
 ```bash
 git clone https://github.com/seu-usuario/nome-do-repositorio.git
 
-
-```bash
 git clone https://github.com/seu-usuario/nome-do-repositorio.git
 
 # instalar dependencias
-```bash
 
 cd nome-do-repositorio
 npm install
 npx expo start
 
 # para ver em web
-```bash
 
 npx expo install react-native-web@~0.18.10 react-dom@18.2.0 @expo/webpack-config@^18.0.1
 npx expo start --web
