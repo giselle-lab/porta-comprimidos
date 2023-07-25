@@ -1,3 +1,4 @@
+
 # Porta Medicamentos Digital/Inteligente
 
 Muitas pessoas enfrentam dificuldades para lembrar de tomar seus medicamentos corretamente, especialmente quando têm que tomar múltiplos remédios diariamente. O Porta Medicamentos Digital/Inteligente surge como uma solução para ajudar a superar esses desafios, permitindo aos usuários programar e gerenciar os horários de tomada de seus medicamentos diretamente pelo smartphone.
